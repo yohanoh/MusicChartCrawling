@@ -9,28 +9,39 @@ import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
-public class MelonChart {
-	public static ArrayList<MusicInfo> search(){
+public class MusicChart {
+	public static ArrayList<MusicInfo> search(String musicSite){
 		ArrayList<MusicInfo> list = new ArrayList<MusicInfo>();
-		String url = "https://www.melon.com/chart/index.htm#params%5Bidx%5D=51";
-		int rank = 1;
-
+		DBManager db = new DBManager();
+		MusicSiteInfo msi = db.selectMusicSite(musicSite);
 		
-		try {
-			Document doc = Jsoup.connect(url).get();
-			Elements musicList = doc.select("tbody");
-			
-			Iterator<Element> title = musicList.select("div.ellipsis.rank01").iterator();
-			Iterator<Element> singer = musicList.select("div.ellipsis.rank02 > span").iterator();
-			
-			while(title.hasNext()) {
-				MusicInfo music = new MusicInfo();
-				music.setRank(rank);
-				music.setTitle(title.next().text().replace("'", "''"));
-				music.setSinger(singer.next().text());
-				list.add(music);
-				rank++;
+		String[] urls = msi.getUrls();
+		String start_point = msi.getStart_point();
+		String title_parser = msi.getTitle_parser();
+		String singer_parser = msi.getSinger_parser();
+		
+		System.out.println(start_point);
+		int rank = 1;
+		
+		try {			
+			for(String url:urls) {
+				
+				Document doc = Jsoup.connect(url).get();
+				Elements musicList = doc.select(start_point);
+				
+				Iterator<Element> title = musicList.select(title_parser).iterator();
+				Iterator<Element> singer = musicList.select(singer_parser).iterator();
+				
+				while(title.hasNext()) {
+					MusicInfo music = new MusicInfo();
+					music.setRank(rank);
+					music.setTitle(title.next().text().replace("'", "''"));
+					music.setSinger(singer.next().text().replace("'", "''"));
+					list.add(music);
+					rank++;
+				}
 			}
+			
 			
 		}catch(IOException e) {
 			e.printStackTrace();
@@ -38,10 +49,6 @@ public class MelonChart {
 		
 		return list;
 	
-	}
-	
-	public static void main(String args[]) {
-		new DBManager(search());
 	}
 	
 }
