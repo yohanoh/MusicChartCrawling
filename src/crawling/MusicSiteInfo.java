@@ -5,7 +5,6 @@ public class MusicSiteInfo {
 	private String[] urls;
 	
 	public void setStart_point(String start_point) {
-		System.out.println(start_point);
 		this.start_point = start_point;
 	}
 	
@@ -14,7 +13,6 @@ public class MusicSiteInfo {
 	}
 	
 	public void setTitle_parse(String title_parser) {
-		System.out.println(title_parser);
 		this.title_parser = title_parser;
 	}
 	
@@ -31,10 +29,6 @@ public class MusicSiteInfo {
 	}
 	
 	public void setUrls(String[] urls) {
-		for(String url: urls) {
-			System.out.println(url);
-		}
-		
 		this.urls = urls;
 	}
 	

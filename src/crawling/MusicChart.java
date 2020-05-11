@@ -20,7 +20,6 @@ public class MusicChart {
 		String title_parser = msi.getTitle_parser();
 		String singer_parser = msi.getSinger_parser();
 		
-		System.out.println(start_point);
 		int rank = 1;
 		
 		try {			

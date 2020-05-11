@@ -71,7 +71,6 @@ public class DBManager {
 	
 	public MusicSiteInfo selectMusicSite(String musicSite) {
 		String query = String.format("SELECT * FROM MUSIC_SITE WHERE name = '%s'", musicSite);
-		System.out.println(query);
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
 		MusicSiteInfo msi = new MusicSiteInfo();
